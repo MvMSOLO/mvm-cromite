@@ -6,6 +6,7 @@ on:
       - "build/RELEASE"
       - "build/cromite_patches_list.txt"
       - "build/patches/MVM-Package-Name.patch"
+      - "build/patches/MVM-App-Label.patch"
       - "tools/validate_mvm_patch_stack.py"
       - "docs/MVM_FORK_PLAN.md"
       - ".github/workflows/mvm-branding-validate.yml"

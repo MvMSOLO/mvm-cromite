@@ -1,0 +1,25 @@
+From: MvMSOLO <mirzayevavazbek569@gmail.com>
+Date: Sun, 11 Oct 2026 13:45:00 +0000
+Subject: [PATCH] Set MVM Browser Android application label
+License: GPL-2.0-or-later - https://spdx.org/licenses/GPL-2.0-or-later.html
+
+Override the application label after Cromite's branding patch has set it to
+"Cromite". This intentionally changes only the launcher/app label; icons,
+new-tab UI, product assets and update behavior remain separate work.
+---
+ chrome/android/java/AndroidManifest.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/chrome/android/java/AndroidManifest.xml b/chrome/android/java/AndroidManifest.xml
+--- a/chrome/android/java/AndroidManifest.xml
++++ b/chrome/android/java/AndroidManifest.xml
+@@ -198,7 +198,7 @@ by a child template that "extends" this file.
+       <application android:name="{% block application_name %}org.chromium.chrome.browser.base.SplitChromeApplication{% endblock %}"
+         android:icon="@drawable/ic_launcher"
+         android:roundIcon="@drawable/ic_launcher_round"
+-        android:label="Cromite"
++        android:label="MVM Browser"
+         android:memtagMode="async"
+         android:largeHeap="false"
+         android:manageSpaceActivity="@string/manage_space_activity"
+--

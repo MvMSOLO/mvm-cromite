@@ -16,6 +16,10 @@ python3 tools/validate_mvm_patch_stack.py
 
 GitHub Actions runs the same check. It verifies patch-list order and patch text only; it does not prove the patch applies to a complete Chromium checkout or that an APK builds.
 
+## Downstream CI scope
+
+The inherited upstream `Check git apply` workflow is a patch-rebase automation that downloads external helper tools and may run before a downstream build tree exists. It is excluded from `mvm-branding-bootstrap`; its latest inherited run failed during helper bootstrap before Chromium checkout or patch application, so that result is **not** evidence that the MVM package patch applies or fails. The `MVM Cromite overlay validation` workflow remains active and checks the static patch stack. A complete Chromium-source patch-apply check and a compiled ARM64 APK are still release gates.
+
 ## Build limitations
 
 - Chromium/Cromite is a full browser source build, not an Android library that can be dropped into the current Kotlin WebView app.

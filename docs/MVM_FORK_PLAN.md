@@ -6,7 +6,7 @@ This repository is the MVM downstream fork of [Cromite](https://github.com/uazo/
 
 ## First downstream code change
 
-Two MVM-specific patches are now appended after the upstream Cromite patch stack: `MVM-App-Label.patch` changes the Android app/launcher label from `Cromite` to `MVM Browser` after `Cromite-Branding.patch`, and `MVM-Package-Name.patch` changes the Android package ID to `com.mvmsolo.mvmbrowser`, matching the current MVM Browser Gradle `applicationId`. The package-ID patch remains last. This is only the first visible branding step: launcher icons, new-tab UI, provider authorities, signing, and MVM feature-porting still require inspection and tests.
+Three MVM-specific patches are now appended after the upstream Cromite patch stack in this order: `MVM-App-Icon.patch` replaces the adaptive and themed icon artwork with a dark navy/cyan MVM monogram; `MVM-App-Label.patch` changes the app label from `Cromite` to `MVM Browser`; `MVM-Package-Name.patch` sets the Android package ID to `com.mvmsolo.mvmbrowser`, matching the current MVM Browser Gradle `applicationId`. The package-ID patch remains last. These are source patches only: the complete patch stack has not yet been applied to a full Chromium checkout, and no APK has been built. New-tab UI, provider authorities, signing, and MVM feature-porting still require inspection and tests.
 
 Run the quick static check with:
 
@@ -34,8 +34,8 @@ Cromite's source identifies GPL-3.0 licensing for its patches. Preserve all copy
 
 ## Next implementation gates
 
-1. Validate both MVM patches against the exact Chromium revision inside a reproducible Cromite build source tree.
-2. Add and verify the MVM launcher icon assets and new-tab experience as separate source patches; do not rewrite unrelated upstream patches.
+1. Apply all three MVM overlays to the exact Cromite source revision and verify no patch conflicts.
+2. Add and verify an MVM new-tab/start-page experience as a separate source change; do not rewrite unrelated upstream patches.
 3. Run a source build on a suitable runner, inspect package metadata and signing, then install and manually smoke-test on Android 10+ ARM64.
 4. Port MVM-specific tabs, saved pages, bookmarks/history, downloads, and ad/tracker controls with tests; do not claim feature parity until each item passes.
 5. Keep this fork synchronized with upstream security updates and repeat the gates before distribution.

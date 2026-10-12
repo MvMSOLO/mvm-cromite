@@ -332,6 +332,9 @@ Eyeo-Adblock-for-Cromite.patch
 Experimental-support-for-extensions-on-Android.patch
 Enable-extension-in-incognito.patch
 
+# MVM downstream launcher icon overlay; keep after upstream branding.
+MVM-App-Icon.patch
+
 # MVM downstream app-label overlay; keep after Cromite-Branding.patch and before package ID.
 MVM-App-Label.patch
 

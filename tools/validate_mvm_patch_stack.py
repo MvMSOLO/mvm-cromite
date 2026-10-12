@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_ID = "com.mvmsolo.mvmbrowser"
 PATCH_NAME = "MVM-Package-Name.patch"
 APP_LABEL_PATCH_NAME = "MVM-App-Label.patch"
+APP_ICON_PATCH_NAME = "MVM-App-Icon.patch"
 APP_LABEL = "MVM Browser"
 
 
@@ -21,7 +22,8 @@ def main() -> None:
     patch_list_path = ROOT / "build/cromite_patches_list.txt"
     patch_path = ROOT / "build/patches" / PATCH_NAME
     app_label_patch_path = ROOT / "build/patches" / APP_LABEL_PATCH_NAME
-    for path in (release_path, patch_list_path, patch_path, app_label_patch_path, ROOT / "LICENSE"):
+    app_icon_patch_path = ROOT / "build/patches" / APP_ICON_PATCH_NAME
+    for path in (release_path, patch_list_path, patch_path, app_label_patch_path, app_icon_patch_path, ROOT / "LICENSE"):
         if not path.is_file():
             fail(f"required upstream or MVM file is missing: {path.relative_to(ROOT)}")
 
@@ -37,14 +39,32 @@ def main() -> None:
         fail(f"expected exactly one {PATCH_NAME} entry")
     if entries.count(APP_LABEL_PATCH_NAME) != 1:
         fail(f"expected exactly one {APP_LABEL_PATCH_NAME} entry")
+    if entries.count(APP_ICON_PATCH_NAME) != 1:
+        fail(f"expected exactly one {APP_ICON_PATCH_NAME} entry")
     if "Cromite-Branding.patch" not in entries:
         fail("expected the upstream Cromite-Branding.patch entry")
-    if not (entries.index("Cromite-Branding.patch") < entries.index(APP_LABEL_PATCH_NAME) < entries.index(PATCH_NAME)):
-        fail("MVM app-label overlay must run after Cromite-Branding.patch and before the package-ID overlay")
+    if not (entries.index("Cromite-Branding.patch") < entries.index(APP_ICON_PATCH_NAME) < entries.index(APP_LABEL_PATCH_NAME) < entries.index(PATCH_NAME)):
+        fail("MVM icon and label overlays must run after Cromite-Branding.patch in icon/label/package order")
     if entries.index(PATCH_NAME) <= entries.index("Bromite-package-name.patch"):
         fail("MVM package overlay must run after the upstream package-name patch")
     if entries[-1] != PATCH_NAME:
         fail("MVM package overlay must remain after all current upstream patches")
+
+    app_icon_patch = app_icon_patch_path.read_text(encoding="utf-8")
+    app_icon_required = (
+        "diff --git a/chrome/android/java/res_base/drawable/ic_launcher.xml",
+        '+    <background android:drawable="@color/mvm_icon_background"/>',
+        '+    <foreground android:drawable="@drawable/mvm_app_icon_foreground"/>',
+        "diff --git a/chrome/android/java/res_chromium_base/drawable/mvm_app_icon_foreground.xml",
+        'android:pathData="M24,74 V34',
+        'android:fillColor="#37D7FF"',
+        'android:name="mvm_monogram"',
+        'android:alpha="0"',
+        "License: GPL-3.0-only",
+    )
+    for marker in app_icon_required:
+        if marker not in app_icon_patch:
+            fail(f"MVM app-icon patch does not contain expected marker: {marker}")
 
     app_label_patch = app_label_patch_path.read_text(encoding="utf-8")
     app_label_required = (
@@ -73,6 +93,7 @@ def main() -> None:
         fail("upstream LICENSE no longer looks like a GPL license; review obligations")
 
     print(f"PASS: Chromium source base version is {version}")
+    print(f"PASS: {APP_ICON_PATCH_NAME} overrides adaptive and themed launcher icons")
     print(f"PASS: {APP_LABEL_PATCH_NAME} applies after upstream Cromite branding")
     print(f"PASS: downstream Android app label is {APP_LABEL}")
     print(f"PASS: {PATCH_NAME} is listed last after the upstream package patch")

@@ -335,6 +335,9 @@ Enable-extension-in-incognito.patch
 # MVM downstream launcher icon overlay; keep after upstream branding.
 MVM-App-Icon.patch
 
+# MVM native Android new-tab page signature; preserves native Chromium search/modules.
+MVM-NTP-Branding.patch
+
 # MVM downstream app-label overlay; keep after Cromite-Branding.patch and before package ID.
 MVM-App-Label.patch
 

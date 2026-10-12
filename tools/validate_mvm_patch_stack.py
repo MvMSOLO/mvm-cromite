@@ -9,6 +9,7 @@ PACKAGE_ID = "com.mvmsolo.mvmbrowser"
 PATCH_NAME = "MVM-Package-Name.patch"
 APP_LABEL_PATCH_NAME = "MVM-App-Label.patch"
 APP_ICON_PATCH_NAME = "MVM-App-Icon.patch"
+NTP_PATCH_NAME = "MVM-NTP-Branding.patch"
 APP_LABEL = "MVM Browser"
 
 
@@ -23,7 +24,8 @@ def main() -> None:
     patch_path = ROOT / "build/patches" / PATCH_NAME
     app_label_patch_path = ROOT / "build/patches" / APP_LABEL_PATCH_NAME
     app_icon_patch_path = ROOT / "build/patches" / APP_ICON_PATCH_NAME
-    for path in (release_path, patch_list_path, patch_path, app_label_patch_path, app_icon_patch_path, ROOT / "LICENSE"):
+    ntp_patch_path = ROOT / "build/patches" / NTP_PATCH_NAME
+    for path in (release_path, patch_list_path, patch_path, app_label_patch_path, app_icon_patch_path, ntp_patch_path, ROOT / "LICENSE"):
         if not path.is_file():
             fail(f"required upstream or MVM file is missing: {path.relative_to(ROOT)}")
 
@@ -41,10 +43,12 @@ def main() -> None:
         fail(f"expected exactly one {APP_LABEL_PATCH_NAME} entry")
     if entries.count(APP_ICON_PATCH_NAME) != 1:
         fail(f"expected exactly one {APP_ICON_PATCH_NAME} entry")
+    if entries.count(NTP_PATCH_NAME) != 1:
+        fail(f"expected exactly one {NTP_PATCH_NAME} entry")
     if "Cromite-Branding.patch" not in entries:
         fail("expected the upstream Cromite-Branding.patch entry")
-    if not (entries.index("Cromite-Branding.patch") < entries.index(APP_ICON_PATCH_NAME) < entries.index(APP_LABEL_PATCH_NAME) < entries.index(PATCH_NAME)):
-        fail("MVM icon and label overlays must run after Cromite-Branding.patch in icon/label/package order")
+    if not (entries.index("Cromite-Branding.patch") < entries.index(APP_ICON_PATCH_NAME) < entries.index(NTP_PATCH_NAME) < entries.index(APP_LABEL_PATCH_NAME) < entries.index(PATCH_NAME)):
+        fail("MVM overlays must run after Cromite branding in icon/NTP/label/package order")
     if entries.index(PATCH_NAME) <= entries.index("Bromite-package-name.patch"):
         fail("MVM package overlay must run after the upstream package-name patch")
     if entries[-1] != PATCH_NAME:
@@ -65,6 +69,21 @@ def main() -> None:
     for marker in app_icon_required:
         if marker not in app_icon_patch:
             fail(f"MVM app-icon patch does not contain expected marker: {marker}")
+
+    ntp_patch = ntp_patch_path.read_text(encoding="utf-8")
+    ntp_required = (
+        "diff --git a/chrome/android/java/res/layout/new_tab_page_layout.xml",
+        "+    <LinearLayout",
+        'android:id="@+id/mvm_ntp_brand_header"',
+        'android:src="@drawable/mvm_app_icon_foreground"',
+        'android:text="MVM BROWSER"',
+        'android:text="SEARCH · DISCOVER · EXPLORE"',
+        "Native Chromium search and site modules stay below.",
+        "License: GPL-3.0-only",
+    )
+    for marker in ntp_required:
+        if marker not in ntp_patch:
+            fail(f"MVM NTP patch does not contain expected marker: {marker}")
 
     app_label_patch = app_label_patch_path.read_text(encoding="utf-8")
     app_label_required = (
@@ -94,6 +113,7 @@ def main() -> None:
 
     print(f"PASS: Chromium source base version is {version}")
     print(f"PASS: {APP_ICON_PATCH_NAME} overrides adaptive and themed launcher icons")
+    print(f"PASS: {NTP_PATCH_NAME} adds MVM identity without replacing native search modules")
     print(f"PASS: {APP_LABEL_PATCH_NAME} applies after upstream Cromite branding")
     print(f"PASS: downstream Android app label is {APP_LABEL}")
     print(f"PASS: {PATCH_NAME} is listed last after the upstream package patch")

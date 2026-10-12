@@ -1,0 +1,70 @@
+From: MvMSOLO <mirzayevavazbek569@gmail.com>
+Date: Mon, 12 Oct 2026 03:05:00 +0000
+Subject: [PATCH] Add MVM brand signature to Android new tab page
+License: GPL-3.0-only - https://spdx.org/licenses/GPL-3.0-only.html
+
+Add a compact MVM monogram and product signature to the native Android
+New Tab Page while preserving Chromium's existing native search box, site
+tiles, and other modules below it.
+---
+ chrome/android/java/res/layout/new_tab_page_layout.xml | 42 ++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
+diff --git a/chrome/android/java/res/layout/new_tab_page_layout.xml b/chrome/android/java/res/layout/new_tab_page_layout.xml
+--- a/chrome/android/java/res/layout/new_tab_page_layout.xml
++++ b/chrome/android/java/res/layout/new_tab_page_layout.xml
+@@ -17,6 +17,48 @@
+     android:clipChildren="false"
+     android:clipToPadding="false"
+     android:paddingTop="@dimen/toolbar_height_no_shadow"
+     android:visibility="gone" >
+
++    <!-- MVM Browser identity. Native Chromium search and site modules stay below. -->
++    <LinearLayout
++        android:id="@+id/mvm_ntp_brand_header"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:orientation="horizontal"
++        android:gravity="center"
++        android:layout_marginBottom="8dp"
++        android:paddingStart="20dp"
++        android:paddingEnd="20dp"
++        android:paddingTop="8dp"
++        android:paddingBottom="8dp">
++        <ImageView
++            android:layout_width="36dp"
++            android:layout_height="36dp"
++            android:contentDescription="@null"
++            android:src="@drawable/mvm_app_icon_foreground" />
++        <LinearLayout
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_marginStart="10dp"
++            android:orientation="vertical">
++            <TextView
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="MVM BROWSER"
++                android:textColor="#37D7FF"
++                android:textSize="12sp"
++                android:textStyle="bold"
++                android:letterSpacing="0.14"
++                android:includeFontPadding="false" />
++            <TextView
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="SEARCH · DISCOVER · EXPLORE"
++                android:textColor="#91A6BB"
++                android:textSize="9sp"
++                android:letterSpacing="0.08"
++                android:includeFontPadding="false" />
++        </LinearLayout>
++    </LinearLayout>
++
+     <!-- Search provider logo -->
+     <ViewStub
+         android:id="@+id/logo_view_stub"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout="@layout/logo_view_layout" />
+--

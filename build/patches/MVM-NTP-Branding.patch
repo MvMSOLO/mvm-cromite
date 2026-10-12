@@ -13,12 +13,12 @@ tiles, and other modules below it.
 diff --git a/chrome/android/java/res/layout/new_tab_page_layout.xml b/chrome/android/java/res/layout/new_tab_page_layout.xml
 --- a/chrome/android/java/res/layout/new_tab_page_layout.xml
 +++ b/chrome/android/java/res/layout/new_tab_page_layout.xml
-@@ -17,6 +17,48 @@
+@@ -17,11 +17,53 @@
      android:clipChildren="false"
      android:clipToPadding="false"
      android:paddingTop="@dimen/toolbar_height_no_shadow"
      android:visibility="gone" >
-
+ 
 +    <!-- MVM Browser identity. Native Chromium search and site modules stay below. -->
 +    <LinearLayout
 +        android:id="@+id/mvm_ntp_brand_header"

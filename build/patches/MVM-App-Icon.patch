@@ -10,9 +10,9 @@ notices intact and routes both launcher variants through the MVM vector asset.
  chrome/android/BUILD.gn                                      |  1 +
  chrome/android/java/res_base/drawable/ic_launcher.xml        |  6 +++---
  chrome/android/java/res_base/drawable/ic_launcher_round.xml  |  6 +++---
- .../res_chromium_base/drawable/mvm_app_icon_foreground.xml   | 21 +++++++++++++++++++++
- .../res_chromium_base/values/channel_constants.xml           |  1 +
- 5 files changed, 29 insertions(+), 6 deletions(-)
+ .../res_chromium_base/drawable/mvm_app_icon_foreground.xml   | 19 +++++++++++++++++++
+ .../res_chromium_base/values/channel_constants.xml           |  3 ++-
+ 5 files changed, 28 insertions(+), 7 deletions(-)
  create mode 100644 chrome/android/java/res_chromium_base/drawable/mvm_app_icon_foreground.xml
 
 diff --git a/chrome/android/BUILD.gn b/chrome/android/BUILD.gn
@@ -28,7 +28,7 @@ diff --git a/chrome/android/BUILD.gn b/chrome/android/BUILD.gn
 diff --git a/chrome/android/java/res_base/drawable/ic_launcher.xml b/chrome/android/java/res_base/drawable/ic_launcher.xml
 --- a/chrome/android/java/res_base/drawable/ic_launcher.xml
 +++ b/chrome/android/java/res_base/drawable/ic_launcher.xml
-@@ -7,5 +7,5 @@
+@@ -7,6 +7,6 @@
  
  <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android" >
 -    <background android:drawable="@android:color/white"/>
@@ -41,7 +41,7 @@ diff --git a/chrome/android/java/res_base/drawable/ic_launcher.xml b/chrome/andr
 diff --git a/chrome/android/java/res_base/drawable/ic_launcher_round.xml b/chrome/android/java/res_base/drawable/ic_launcher_round.xml
 --- a/chrome/android/java/res_base/drawable/ic_launcher_round.xml
 +++ b/chrome/android/java/res_base/drawable/ic_launcher_round.xml
-@@ -7,5 +7,5 @@
+@@ -7,6 +7,6 @@
  
  <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android" >
 -    <background android:drawable="@mipmap/layered_app_icon_background"/>
@@ -55,7 +55,7 @@ diff --git a/chrome/android/java/res_chromium_base/drawable/mvm_app_icon_foregro
 new file mode 100644
 --- /dev/null
 +++ b/chrome/android/java/res_chromium_base/drawable/mvm_app_icon_foreground.xml
-@@ -0,0 +1,21 @@
+@@ -0,0 +1,19 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!--
 +Copyright 2026 MvMSOLO

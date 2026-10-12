@@ -58,8 +58,8 @@ def main() -> None:
         "diff --git a/chrome/android/java/res_chromium_base/drawable/mvm_app_icon_foreground.xml",
         'android:pathData="M24,74 V34',
         'android:fillColor="#37D7FF"',
-        'android:name="mvm_monogram"',
-        'android:alpha="0"',
+        '+    <monochrome android:drawable="@drawable/mvm_app_icon_foreground"/>',
+        '+    <color name="mvm_icon_background">#07111D</color>',
         "License: GPL-3.0-only",
     )
     for marker in app_icon_required:

@@ -4,22 +4,21 @@ Subject: [PATCH] Brand MVM Browser Android launcher icons
 License: GPL-3.0-only - https://spdx.org/licenses/GPL-3.0-only.html
 
 Use an MVM monogram instead of Cromite artwork for adaptive launcher icons
-and Android themed icons. Keep the upstream icon resources and notices
-available, but route the launcher resources through this downstream overlay.
+and Android themed icons. This patch leaves the original Chromium and Cromite
+notices intact and routes both launcher variants through the MVM vector asset.
 ---
  chrome/android/BUILD.gn                                      |  1 +
- chrome/android/java/res_base/drawable/ic_launcher.xml        |  4 ++--
- chrome/android/java/res_base/drawable/ic_launcher_round.xml  |  4 ++--
- .../res_chromium_base/drawable/mvm_app_icon_foreground.xml   | 18 ++++++++++++++++++
- .../drawable/themed_app_icon.xml                             | 13 +++++++++++++
+ chrome/android/java/res_base/drawable/ic_launcher.xml        |  6 +++---
+ chrome/android/java/res_base/drawable/ic_launcher_round.xml  |  6 +++---
+ .../res_chromium_base/drawable/mvm_app_icon_foreground.xml   | 21 +++++++++++++++++++++
  .../res_chromium_base/values/channel_constants.xml           |  1 +
- 6 files changed, 37 insertions(+), 4 deletions(-)
+ 5 files changed, 29 insertions(+), 6 deletions(-)
  create mode 100644 chrome/android/java/res_chromium_base/drawable/mvm_app_icon_foreground.xml
 
 diff --git a/chrome/android/BUILD.gn b/chrome/android/BUILD.gn
 --- a/chrome/android/BUILD.gn
 +++ b/chrome/android/BUILD.gn
-@@ -24,6 +24,7 @@ android_resources("chrome_base_module_resources") {
+@@ -146,5 +146,6 @@ android_resources("chrome_base_module_resources") {
        "java/res_base/xml/network_security_config.xml",
        "java/res_chromium_base/drawable/themed_app_icon.xml",
 +      "java/res_chromium_base/drawable/mvm_app_icon_foreground.xml",
@@ -34,9 +33,10 @@ diff --git a/chrome/android/java/res_base/drawable/ic_launcher.xml b/chrome/andr
  <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android" >
 -    <background android:drawable="@android:color/white"/>
 -    <foreground android:drawable="@mipmap/layered_app_icon"/>
+-    <monochrome android:drawable="@drawable/themed_app_icon"/>
 +    <background android:drawable="@color/mvm_icon_background"/>
 +    <foreground android:drawable="@drawable/mvm_app_icon_foreground"/>
-     <monochrome android:drawable="@drawable/themed_app_icon"/>
++    <monochrome android:drawable="@drawable/mvm_app_icon_foreground"/>
  </adaptive-icon>
 diff --git a/chrome/android/java/res_base/drawable/ic_launcher_round.xml b/chrome/android/java/res_base/drawable/ic_launcher_round.xml
 --- a/chrome/android/java/res_base/drawable/ic_launcher_round.xml
@@ -46,15 +46,16 @@ diff --git a/chrome/android/java/res_base/drawable/ic_launcher_round.xml b/chrom
  <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android" >
 -    <background android:drawable="@mipmap/layered_app_icon_background"/>
 -    <foreground android:drawable="@mipmap/layered_app_icon_foreground"/>
+-    <monochrome android:drawable="@drawable/themed_app_icon"/>
 +    <background android:drawable="@color/mvm_icon_background"/>
 +    <foreground android:drawable="@drawable/mvm_app_icon_foreground"/>
-     <monochrome android:drawable="@drawable/themed_app_icon"/>
++    <monochrome android:drawable="@drawable/mvm_app_icon_foreground"/>
  </adaptive-icon>
 diff --git a/chrome/android/java/res_chromium_base/drawable/mvm_app_icon_foreground.xml b/chrome/android/java/res_chromium_base/drawable/mvm_app_icon_foreground.xml
 new file mode 100644
 --- /dev/null
 +++ b/chrome/android/java/res_chromium_base/drawable/mvm_app_icon_foreground.xml
-@@ -0,0 +1,18 @@
+@@ -0,0 +1,21 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!--
 +Copyright 2026 MvMSOLO
@@ -74,33 +75,10 @@ new file mode 100644
 +        android:pathData="M63,80 H84 V84 H63 Z"
 +        android:fillColor="#8BFFC7"/>
 +</vector>
-diff --git a/chrome/android/java/res_chromium_base/drawable/themed_app_icon.xml b/chrome/android/java/res_chromium_base/drawable/themed_app_icon.xml
---- a/chrome/android/java/res_chromium_base/drawable/themed_app_icon.xml
-+++ b/chrome/android/java/res_chromium_base/drawable/themed_app_icon.xml
-@@ -16,7 +16,8 @@ Use of this source code is governed by a BSD-style license that can be
-     <group
-         android:name="group_1"
-         android:scaleX="0.1"
--        android:scaleY="0.1">
-+        android:scaleY="0.1"
-+        android:alpha="0">
-@@ -70,2 +71,12 @@
-     </group>
-+    <group
-+        android:name="mvm_monogram"
-+        android:scaleX="0.1"
-+        android:scaleY="0.1">
-+        <path
-+            android:name="mvm_m"
-+            android:pathData="M 300,360 L 365,360 L 450,470 L 535,360 L 600,360 L 600,630 L 535,630 L 535,470 L 450,565 L 365,470 L 365,630 L 300,630 Z"
-+            android:fillColor="#000000"
-+            android:strokeWidth="1"/>
-+    </group>
- </vector>
 diff --git a/chrome/android/java/res_chromium_base/values/channel_constants.xml b/chrome/android/java/res_chromium_base/values/channel_constants.xml
 --- a/chrome/android/java/res_chromium_base/values/channel_constants.xml
 +++ b/chrome/android/java/res_chromium_base/values/channel_constants.xml
-@@ -12,1 +12,2 @@
+@@ -14,1 +14,2 @@
 -</resources>
 +    <color name="mvm_icon_background">#07111D</color>
 +</resources>

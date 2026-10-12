@@ -14,7 +14,7 @@ Run the quick static check with:
 python3 tools/validate_mvm_patch_stack.py
 ```
 
-GitHub Actions runs the static check plus `tools/validate_mvm_patch_application.py`, which fetches the exact Chromium-version target files from the upstream raw source and applies all four MVM patches in order. It prepares only the known upstream app-label and package-name preconditions; it does not apply the complete Cromite patch stack, compile Chromium, or verify an APK.
+GitHub Actions runs the static check plus `tools/validate_mvm_patch_application.py`, which fetches the exact Chromium-version target files from the upstream raw source and applies all four MVM patches in order. It simulates only the upstream app-label, package-name, and stable-channel-suffix preconditions needed by these overlays; it does not apply the complete Cromite patch stack, compile Chromium, or verify an APK.
 
 ## Downstream CI scope
 

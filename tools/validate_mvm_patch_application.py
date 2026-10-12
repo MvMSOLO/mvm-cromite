@@ -88,11 +88,17 @@ def main() -> None:
     )
 
     package_template = sources["chrome/android/chrome_public_apk_tmpl.gni"]
-    sources["chrome/android/chrome_public_apk_tmpl.gni"] = replace_exactly_once(
+    package_template = replace_exactly_once(
         package_template,
         'chrome_public_manifest_package = "org.chromium.chrome"',
         'chrome_public_manifest_package = "org.bromite.bromite"',
         "upstream Bromite package-name baseline",
+    )
+    sources["chrome/android/chrome_public_apk_tmpl.gni"] = replace_exactly_once(
+        package_template,
+        '} else if (android_channel != "default") {',
+        '} else if (android_channel != "default" && android_channel != "stable") {',
+        "upstream Cromite stable-channel suffix condition",
     )
 
     with tempfile.TemporaryDirectory(prefix="mvm-cromite-target-apply-") as temp:
@@ -118,7 +124,7 @@ def main() -> None:
             print(f"PASS: {name} applies to the prepared Chromium {VERSION} target-file context")
 
     print("PASS: all four MVM overlays apply in the configured order")
-    print("LIMIT: targeted files and two prerequisite line changes only; no full source build or APK verification")
+    print("LIMIT: targeted files and three prerequisite line changes only; no full source build or APK verification")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,47 @@
+name: MVM Cromite overlay validation
+
+on:
+  push:
+    paths:
+      - "build/RELEASE"
+      - "build/cromite_patches_list.txt"
+      - "build/patches/MVM-Package-Name.patch"
+      - "build/patches/MVM-App-Label.patch"
+      - "build/patches/MVM-App-Icon.patch"
+      - "build/patches/MVM-NTP-Branding.patch"
+      - "tools/validate_mvm_patch_stack.py"
+      - "tools/validate_mvm_patch_application.py"
+      - "docs/MVM_FORK_PLAN.md"
+      - ".github/workflows/mvm-branding-validate.yml"
+  pull_request:
+    paths:
+      - "build/RELEASE"
+      - "build/cromite_patches_list.txt"
+      - "build/patches/MVM-Package-Name.patch"
+      - "build/patches/MVM-App-Label.patch"
+      - "build/patches/MVM-App-Icon.patch"
+      - "build/patches/MVM-NTP-Branding.patch"
+      - "tools/validate_mvm_patch_stack.py"
+      - "tools/validate_mvm_patch_application.py"
+      - "docs/MVM_FORK_PLAN.md"
+      - ".github/workflows/mvm-branding-validate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-overlay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out source fork
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate MVM package patch stack
+        run: python tools/validate_mvm_patch_stack.py
+      - name: Apply-check overlays against pinned Chromium target files
+        run: python tools/validate_mvm_patch_application.py

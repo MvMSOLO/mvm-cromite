@@ -331,3 +331,15 @@ Eyeo-Adblock-for-Cromite.patch
 # extension patches
 Experimental-support-for-extensions-on-Android.patch
 Enable-extension-in-incognito.patch
+
+# MVM downstream launcher icon overlay; keep after upstream branding.
+MVM-App-Icon.patch
+
+# MVM native Android new-tab page signature; preserves native Chromium search/modules.
+MVM-NTP-Branding.patch
+
+# MVM downstream app-label overlay; keep after Cromite-Branding.patch and before package ID.
+MVM-App-Label.patch
+
+# MVM downstream package-identity overlay; keep last after the upstream patches.
+MVM-Package-Name.patch

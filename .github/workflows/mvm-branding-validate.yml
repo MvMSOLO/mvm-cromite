@@ -12,6 +12,8 @@ on:
       - "tools/validate_mvm_patch_stack.py"
       - "docs/MVM_FORK_PLAN.md"
       - ".github/workflows/mvm-branding-validate.yml"
+      - "tools/validate_mvm_patch_stack.py"
+      - "tools/validate_mvm_patch_application.py"
   pull_request:
     paths:
       - "build/RELEASE"
@@ -23,6 +25,8 @@ on:
       - "tools/validate_mvm_patch_stack.py"
       - "docs/MVM_FORK_PLAN.md"
       - ".github/workflows/mvm-branding-validate.yml"
+      - "tools/validate_mvm_patch_stack.py"
+      - "tools/validate_mvm_patch_application.py"
   workflow_dispatch:
 
 permissions:
@@ -41,3 +45,5 @@ jobs:
           python-version: "3.12"
       - name: Validate MVM package patch stack
         run: python tools/validate_mvm_patch_stack.py
+      - name: Apply-check overlays against pinned Chromium target files
+        run: python tools/validate_mvm_patch_application.py
